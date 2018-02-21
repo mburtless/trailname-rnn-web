@@ -1,0 +1,83 @@
+/*!
+ * Start Bootstrap - The Big Picture (https://startbootstrap.com/template-overviews/the-big-picture)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-the-big-picture/blob/master/LICENSE)
+ */
+
+body {
+  background: #e24e42;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  font-family: 'Roboto Slab', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.trail-head {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+.trail-head-text {
+	color: #fff;
+	text-align: center;
+	font-size: 90px;
+	margin-bottom: 25px;
+}
+
+#trailNames {
+	text-align: center;
+	font-size: 40px;
+	font-weight: 700;
+	color: #e9b000;
+}
+
+.form-group {
+	color: #fff;
+}
+
+.bg-trail {
+	background: #008F95;
+}
+
+#trail-head-div {
+  font-weight: 700;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+#starttext {
+	height: 100px;
+	font-size: 50px;
+}
+
+.trail-btn {
+	background: #008F95;
+	color: #fff;
+	height: 100px;
+	width: 90px;
+	font-size: 50px;
+	border-radius: 0 10px 10px 0;
+}
+
+.icon > svg {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+.icon > svg path {
+    fill: #fff;
+}
+
+.contact-list, .social-media-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.a-github a:link, .a-github a:visited{
+	color: #fff
+}
+
+.a-github a:hover{
+	color: #fff
+}

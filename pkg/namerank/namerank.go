@@ -1,13 +1,10 @@
 package namerank
 
 import (
-	//"testing"
 	"fmt"
 	"log"
 	"github.com/AntoineAugusti/wordsegmentation/corpus"
 	"github.com/AntoineAugusti/wordsegmentation"
-	//"github.com/stretchr/testify/assert"
-	//"github.com/mburtless/trailname-rnn-web/pkg/handlers"
 )
 
 func TestSegment() {

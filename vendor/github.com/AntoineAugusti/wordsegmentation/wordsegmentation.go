@@ -2,7 +2,7 @@ package wordsegmentation
 
 import (
 	"math"
-
+	"fmt"
 	help "github.com/AntoineAugusti/wordsegmentation/helpers"
 	m "github.com/AntoineAugusti/wordsegmentation/models"
 )
@@ -26,9 +26,12 @@ type Corpus interface {
 }
 
 // Return a list of words that is the best segmentation of a given text.
-func Segment(corp Corpus, text string) []string {
+func Segment(corp Corpus, text string) ([]string, float64) {
 	corpus = corp
-	return search(corpus.Clean(text), "<s>").Words
+	//arr, score := search(corpus.Clean(text), "<s>").Words
+	arr, score := search(corpus.Clean(text), "<s>")
+	fmt.Printf("Score of arr.Words is  %v", score)
+	return arr.Words, score
 }
 
 // Score a word in the context of the previous word.
@@ -60,12 +63,13 @@ func score(current, previous string) float64 {
 }
 
 // Search for the best arrangement for a text in the context of a previous phrase.
-func search(text, prev string) (ar m.Arrangement) {
+func search(text, prev string) (m.Arrangement, float64) {
+	var ar m.Arrangement
+	max := -10000000.0
 	if help.Length(text) == 0 {
-		return m.Arrangement{}
+		return m.Arrangement{}, max
 	}
 
-	max := -10000000.0
 
 	// Find the best candidate by finding the best arrangement rating
 	for a := range findCandidates(text, prev) {
@@ -75,7 +79,7 @@ func search(text, prev string) (ar m.Arrangement) {
 		}
 	}
 
-	return
+	return ar, max
 }
 
 // Find candidates for a given text and an optional previous chunk of letters.
@@ -87,7 +91,7 @@ func findCandidates(text, prev string) <-chan m.Arrangement {
 			prefixScore := math.Log10(score(p.Prefix, prev))
 			arrangement := candidates.ForPossibility(p)
 			if len(arrangement.Words) == 0 {
-				arrangement = search(p.Suffix, p.Prefix)
+				arrangement, _ = search(p.Suffix, p.Prefix)
 				candidates.Add(m.Candidate{p, arrangement})
 			}
 

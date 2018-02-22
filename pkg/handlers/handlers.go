@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"bytes"
 	"github.com/mburtless/trailname-rnn-web/pkg/namerank"
-    //"github.com/AntoineAugusti/wordsegmentation"
     "github.com/AntoineAugusti/wordsegmentation/corpus"
-	//"github.com/mburtless/trailname-rnn-web/pkg/namerank"
+	"github.com/mburtless/trailname-rnn-web/pkg/configs"
 )
 
 type TrailName struct {
@@ -98,7 +97,7 @@ func apiNameReq(startText string) TrailName {
 	jsonBytes := []byte(jsonString)
 	log.Printf("Request is %+v", jsonString)
 	var n TrailName
-	res, err := http.Post("http://127.0.0.1:6788/api", "application/json; charset=utf-8", bytes.NewBuffer(jsonBytes))
+	res, err := http.Post("http://" + *configs.InstanceArgs.ApiHost + ":6788/api", "application/json; charset=utf-8", bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}

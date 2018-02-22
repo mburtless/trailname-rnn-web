@@ -1,13 +1,16 @@
 package configs
 
-// Struct to hold cmd line args
-type Args struct {
-	ApiHost		*string
-}
+/*import (
+	"os"
+)*/
 
-// cmd line args for this instance
-var InstanceArgs Args
+// Map to hold cmd line args
+var InstanceArgs = map[string]*string{}
 
 func ParseFlags(apiHost *string) {
-	InstanceArgs.ApiHost = apiHost
+	InstanceArgs["ApiHost"] = apiHost
 }
+
+/*func ParseEnv(envKey string) {
+	
+}*/

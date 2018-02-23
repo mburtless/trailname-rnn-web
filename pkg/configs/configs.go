@@ -8,8 +8,8 @@ import (
 var InstanceArgs = map[string]*string{}
 
 // ParseFlags maps the passed cli flags to the InstanceArgs map
-func ParseFlags(apiHost *string) {
-	InstanceArgs["APIHOST"] = apiHost
+func ParseFlags(envVar string, parsedVal *string) {
+	InstanceArgs[envVar] = parsedVal
 }
 
 // ParseEnv attempts to parse an env var whose name matches the passed

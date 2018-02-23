@@ -11,6 +11,7 @@ COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/web ./web
 # Copy data needed for wordsegmentation
 COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/vendor/github.com/AntoineAugusti/wordsegmentation/data ./src/github.com/AntoineAugusti/wordsegmentation/data
 ENV APIHOST=localhost
+ENV PORT=8000
 # Must set GOPATH for wordsegmenation to run
 ENV GOPATH=/app
 EXPOSE 8000

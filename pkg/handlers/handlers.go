@@ -61,7 +61,11 @@ func (tn *TrailName) filterNames() {
 			finalTn.Result = append(finalTn.Result, name)
 		}
 	}
-	log.Printf("Names to keep are %v", finalTn)
+	if len(finalTn.Result) > 0 {
+		log.Printf("Names to keep are %v", finalTn)
+	} else {
+		log.Printf("namerank didn't rank any names high enough to use")
+	}
 	*tn = finalTn
 }
 
@@ -97,7 +101,7 @@ func apiNameReq(startText string) TrailName {
 	jsonBytes := []byte(jsonString)
 	log.Printf("Request is %+v", jsonString)
 	var n TrailName
-	res, err := http.Post("http://" + *configs.InstanceArgs["ApiHost"] + ":6788/api", "application/json; charset=utf-8", bytes.NewBuffer(jsonBytes))
+	res, err := http.Post("http://" + *configs.InstanceArgs["APIHOST"] + ":6788/api", "application/json; charset=utf-8", bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}

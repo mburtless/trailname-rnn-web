@@ -23,13 +23,12 @@ $(form).submit(function(event){
 			var namesContent = ""
 			prevStartText = startText
 			resultStack = responseData.result
-			//for(var i = 0; i < .length; i++){
-			//namesContent += "<br>"+names[i];
-			//}
-			namesContent = "Your trail name is " + resultStack.pop();
-			//$("#trailNames").html(responseData.result);
-			$("#trailNames").empty().append(namesContent);
-
+			if (resultStack && resultStack.length > 0) {
+				namesContent = "Your trail name is " + resultStack.pop();
+				$("#trailNames").empty().append(namesContent);
+			} else {
+				$("#trailNames").empty().append("Oops! We couldn't grab your trail name at this time, please try again later!");
+			}	
 		}).fail(function(data) {
 			if (data.responseText !== '') {
 				$("#trailNames").empty().append(data.responseText);

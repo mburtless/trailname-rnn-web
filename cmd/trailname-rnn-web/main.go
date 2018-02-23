@@ -18,8 +18,14 @@ func init() {
 func main() {
 	// Parse flags
 	flag.Parse()
-	// Send to configs for parsing into InstanceArgs
-	configs.ParseFlags(&apiHostFlag)
+	// If ParseEnv indicates APIHOST env doesn't exist, store user value or default passed via flag
+	if configs.ParseEnv("APIHOST") {
+		log.Printf("APIHOST env found, ignoring flag value")
+	} else {
+		// Send to configs for parsing into InstanceArgs
+		log.Printf("APIHOST env not found, using flag value instead")
+		configs.ParseFlags(&apiHostFlag)
+	}
 	// Init dynamic routes
 	router := routes.NewRouter()
 	// Set parent dir for static content

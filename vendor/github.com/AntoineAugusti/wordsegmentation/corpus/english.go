@@ -26,6 +26,7 @@ func NewEnglishCorpus() EnglishCorpus {
 	for _, component := range filepath.SplitList(os.Getenv("GOPATH")) {
 		component = filepath.Clean(component)
 		dataPath := filepath.Join(component, "src", "github.com", "AntoineAugusti", "wordsegmentation", "data")
+		log.Printf("dataPath is %v", dataPath)
 		if _, err := os.Stat(dataPath); os.IsNotExist(err) {
 			log.Println(dataPath, "does not exist")
 			continue

@@ -18,26 +18,14 @@ import (
 	"ENVIRONMENT":	"development",
 }*/
 
-type configSet struct {
-	defVal	string
-	envVar	string
-	flagVar string
-	help	string
-	parsedVal	string
-}
 
-var configVars = map[string]*configSet{
-	"apiHost":		{"localhost", "APIHOST", "apihost", "IP or hostname of the trailname-rnn API", ""},
-	"port":			{"8000", "PORT", "port", "Port to listen on", ""},
-	"environment":	{"development", "ENVIRONMENT", "environemnt", "Deployment environment", ""},
-}
 
 func init() {
 	// Define our flags
-	//flag.StringVar(configVars["apihost"]["parsedVal"], configVars["apihost"]["flagVar"], configVars["apihost"]["default"], configVars["apihost"]["help"])
-	flag.StringVar(&configVars["apiHost"].parsedVal, configVars["apiHost"].flagVar, configVars["apiHost"].defVal, configVars["apiHost"].help)
-	flag.StringVar(&configVars["port"].parsedVal, configVars["port"].flagVar, configVars["port"].defVal, configVars["port"].help)
-	flag.StringVar(&configVars["environment"].parsedVal, configVars["environment"].flagVar, configVars["environment"].defVal, configVars["environment"].help)
+	//flag.StringVar(configVars["apihost"]["ParsedVal"], configVars["apihost"]["FlagVar"], configVars["apihost"]["default"], configVars["apihost"]["Help"])
+	flag.StringVar(&configs.ConfigVars["apiHost"].ParsedVal, configs.ConfigVars["apiHost"].FlagVar, configs.ConfigVars["apiHost"].DefVal, configs.ConfigVars["apiHost"].Help)
+	flag.StringVar(&configs.ConfigVars["port"].ParsedVal, configs.ConfigVars["port"].FlagVar, configs.ConfigVars["port"].DefVal, configs.ConfigVars["port"].Help)
+	flag.StringVar(&configs.ConfigVars["environment"].ParsedVal, configs.ConfigVars["environment"].FlagVar, configs.ConfigVars["environment"].DefVal, configs.ConfigVars["environment"].Help)
 	//flag.StringVar(&portFlag, "port", "8080", "Port to listen on")
 	//flag.StringVar(&envFlag, "environment", "development", "Deployment environment")
 }
@@ -51,15 +39,15 @@ func main() {
 	//} else {
 	//	// Send to configs for parsing into InstanceArgs
 	//	log.Printf("APIHOST env not found, using flag value instead")
-	//	configs.ParseFlags(&configVars["apiHost"].parsedVal)
+	//	configs.ParseFlags(&ConfigVars["apiHost"].ParsedVal)
 	//}
-	for _, val := range configVars {
-		if configs.ParseEnv(val.envVar) {
-			log.Printf("%s env found, ignoring flag value", val.envVar)
+	for _, val := range configs.ConfigVars {
+		if configs.ParseEnv(val.EnvVar) {
+			log.Printf("%s env found, ignoring flag value", val.EnvVar)
 		} else {
 			// Send to configs for parsing into InstanceArgs
-			log.Printf("%s env not found, using flag value instead", val.envVar)
-			configs.ParseFlags(val.envVar, &val.parsedVal)
+			log.Printf("%s env not found, using flag value instead", val.EnvVar)
+			configs.ParseFlags(val.EnvVar, &val.ParsedVal)
 		}
 	}
 	log.Printf("Starting %s environment on port %s; Targeting API host at %s", *configs.InstanceArgs["ENVIRONMENT"], *configs.InstanceArgs["PORT"], *configs.InstanceArgs["APIHOST"])

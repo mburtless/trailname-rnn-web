@@ -7,4 +7,5 @@ vendor/**/*
 !vendor/**/*.go
 !vendor/**/LICENSE*
 !vendor/**/COPYING*
+!vendor/**/*.tsv
 vendor/**/*_test.go

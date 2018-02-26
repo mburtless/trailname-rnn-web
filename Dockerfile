@@ -6,16 +6,10 @@ RUN cd /go/src/github.com/mburtless/trailname-rnn-web/cmd/trailname-rnn-web && C
 # Final stage
 FROM alpine:latest
 WORKDIR /app
-
+COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/cmd/trailname-rnn-web/trailname-rnn-web .
+COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/web ./web
 # Copy data needed for wordsegmentation
 COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/vendor/github.com/AntoineAugusti/wordsegmentation/data ./src/github.com/AntoineAugusti/wordsegmentation/data
-
-
-# Copy compiled app
-COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/cmd/trailname-rnn-web/trailname-rnn-web .
-# Copy website assets
-COPY --from=build-env /go/src/github.com/mburtless/trailname-rnn-web/web ./web
-
 ENV APIHOST=localhost
 ENV PORT=8000
 # Must set GOPATH for wordsegmenation to run

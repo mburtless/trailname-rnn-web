@@ -101,7 +101,7 @@ func apiNameReq(startText string) TrailName {
 	jsonBytes := []byte(jsonString)
 	log.Printf("Request is %+v", jsonString)
 	var n TrailName
-	res, err := http.Post("http://" + configs.ConfigVars["apiHost"].ParsedVal + ":6788/api", "application/json; charset=utf-8", bytes.NewBuffer(jsonBytes))
+	res, err := http.Post("http://" + configs.ConfigVars["apiHost"].ParsedVal + "/api", "application/json; charset=utf-8", bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}

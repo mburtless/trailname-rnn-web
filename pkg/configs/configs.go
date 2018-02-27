@@ -17,7 +17,7 @@ type ConfigSet struct {
 
 // Map that defines each flag or env var used to configure this app
 var ConfigVars = map[string]*ConfigSet{
-	"apiHost":		{"localhost", "APIHOST", "apihost", "IP or hostname of the trailname-rnn API", ""},
+	"apiHost":		{"localhost:6788", "APIHOST", "apihost", "IP or hostname and port of the trailname-rnn API", ""},
 	"port":			{"8000", "PORT", "port", "Port to listen on", ""},
 	"environment":	{"development", "ENVIRONMENT", "environemnt", "Deployment environment", ""},
 }

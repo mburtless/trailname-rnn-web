@@ -14,6 +14,10 @@ type TrailName struct {
 	Result	[]string		`json:"result,omitempty"`
 }
 
+type pollResponse struct {
+	Result bool				`json:"result"`
+}
+
 func GetTestTrailName(w http.ResponseWriter, r *http.Request) {
 	//log.Println("Responding to GET request")
 	trailNames := TrailName{Result: []string{"GlacialFreeze", "RiptideRush"}}
@@ -26,6 +30,38 @@ func GetTestTrailName(w http.ResponseWriter, r *http.Request) {
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./web/pages/index.html")
+}
+
+func ApiHandler(w http.ResponseWriter, r *http.Request) {
+	/*contentType := r.Header.Get("Content-type")
+	if contentType == "application/x-www-form-urlencoded" {
+		GetTrailName(w, r)
+	}*/
+	switch contentType := r.Header.Get("Content-type"); contentType {
+	case "application/x-www-form-urlencoded; charset=UTF-8":
+		GetTrailName(w, r)
+	case "application/json; charset=UTF-8":
+		PollAPI(w, r)
+	default:
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	// If content is JSON with attribute poll=true
+	// call function to poll the API, else if content is form
+	// submit to GetTrailName(), else return error
+}
+
+func PollAPI(w http.ResponseWriter, r *http.Request) {
+	// TODO: Inspect JSON, make sure poll is true
+	// TODO: Submit http request to /api and return good if we get response
+
+	// Generate JSON response and reply to ajax request
+	jsonResponse := pollResponse{Result: true}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {
+		log.Fatalf("Error: %v", err)
+	}
 }
 
 func GetTrailName(w http.ResponseWriter, r *http.Request) {

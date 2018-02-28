@@ -28,7 +28,7 @@ var routes = Routes {
 		"APIReq",
 		"POST",
 		"/api",
-		handlers.GetTrailName,
+		handlers.ApiHandler,
 	},
 	Route {
 		"Index",

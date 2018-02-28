@@ -82,3 +82,18 @@ body {
 .a-github a:hover{
 	color: #fff
 }
+
+.btn-loader {
+    border: 16px solid rgba(0, 0, 0, .5); 
+    border-top: 16px solid rgba(255, 255, 255, 1); 
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+	margin: 0px 0px 0px -5px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

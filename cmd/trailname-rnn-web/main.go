@@ -27,6 +27,7 @@ func main() {
 	staticDirectory := "./web"
 	// Create routes for static content
 	routes.StaticRouter(router, staticDirectory)
+	//routes.IndexRouter(router, staticDirectory + "/pages/index.html")
 	log.Fatal(http.ListenAndServe("0.0.0.0:" + configs.ConfigVars["port"].ParsedVal, router))
 
 }

@@ -24,6 +24,10 @@ func GetTestTrailName(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./web/pages/index.html")
+}
+
 func GetTrailName(w http.ResponseWriter, r *http.Request) {
 	//log.Println("Responding to GET request")
 	err := r.ParseForm()

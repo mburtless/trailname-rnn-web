@@ -18,17 +18,29 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes {
-	Route {
+	/*Route {
 		"GetTrailName",
 		"POST",
 		"/trailname/{starttext}",
 		handlers.GetTestTrailName,
-	},
+	},*/
 	Route {
 		"APIReq",
 		"POST",
 		"/api",
 		handlers.GetTrailName,
+	},
+	Route {
+		"Index",
+		"GET",
+		"/",
+		handlers.IndexHandler,
+	},
+	Route {
+		"Index",
+		"GET",
+		"/index.html",
+		handlers.IndexHandler,
 	},
 }
 

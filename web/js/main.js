@@ -11,7 +11,7 @@ function pollApi() {
 	console.log("polling api");
 	// Create JSON data to submit to api
 	var jsonObj = new Object();
-	jsonObj.poll = true;
+	jsonObj.poll = "true";
 	var jsonStr = JSON.stringify(jsonObj);
 	console.log(JSON.parse(jsonStr));
 	// Create ajax request and submit with long timeout

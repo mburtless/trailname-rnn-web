@@ -8,14 +8,19 @@ import (
 	"github.com/mburtless/trailname-rnn-web/pkg/namerank"
     "github.com/AntoineAugusti/wordsegmentation/corpus"
 	"github.com/mburtless/trailname-rnn-web/pkg/configs"
+	"time"
 )
 
 type TrailName struct {
 	Result	[]string		`json:"result,omitempty"`
 }
 
+type PollRequest struct {
+	Poll	string			`json:"poll"`
+}
+
 type pollResponse struct {
-	Result bool				`json:"result"`
+	Result	bool			`json:"result"`
 }
 
 func GetTestTrailName(w http.ResponseWriter, r *http.Request) {
@@ -52,16 +57,59 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func PollAPI(w http.ResponseWriter, r *http.Request) {
-	// TODO: Inspect JSON, make sure poll is true
-	// TODO: Submit http request to /api and return good if we get response
-
-	// Generate JSON response and reply to ajax request
-	jsonResponse := pollResponse{Result: true}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {
-		log.Fatalf("Error: %v", err)
+	var pr PollRequest
+	var jsonResponse pollResponse
+	if r.Body == nil {
+		http.Error(w, "Please submit a JSON request", 400)
+		return
 	}
+	// Inspect JSON, make sure poll is true
+	if err := json.NewDecoder(r.Body).Decode(&pr); err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	// If poll attribute was set to true
+	if pr.Poll == "true" {
+		result := sendPoll(configs.ConfigVars["apiHost"].ParsedVal)
+		if result {
+			jsonResponse = pollResponse{Result: true}
+		} else {
+			jsonResponse = pollResponse{Result: false}
+		}
+		// Generate JSON response and reply to ajax request
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {
+			log.Fatalf("Error: %v", err)
+		}
+	}
+}
+
+func sendPoll(dest string) bool {
+	log.Printf("Send poll to %s", dest)
+	if len(dest) < 1 {
+		log.Printf("Polling destination must be provided")
+		return false
+	}
+	// Craft a http request to dest
+	timeout := time.Duration(5 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
+	}
+    rs, err := client.Get("http://" + dest)
+    // Process response
+    if err != nil {
+		log.Printf("Error durring poll %v", err)
+		return false
+	}
+    defer rs.Body.Close()
+	log.Printf("StatusCode of poll response was %d", rs.StatusCode)
+	// If header of response is 200, return true
+	if rs.StatusCode == 200 {
+		return true
+	}
+	// Anything else, including timeout, return false
+	return false
 }
 
 func GetTrailName(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +119,6 @@ func GetTrailName(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		return
 	}
 
 	startText := r.Form.Get("starttext")
